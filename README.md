@@ -1,2 +1,2 @@
-# customvectorlamps.com
-Custom Vector Lamps
+# customvectormaps.com
+Custom Vector Maps
