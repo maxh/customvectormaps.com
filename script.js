@@ -31,7 +31,7 @@ function submitRender() {
   PARAMS.each(setParam);
   BASE64_PARAMS.each(setBase64Param);
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "/server", true);
+  xhr.open("POST", "https://ryz2vfwxcg.execute-api.us-west-2.amazonaws.com/Prod/render/", true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xmlhttp.send(JSON.stringify(params));
 }
