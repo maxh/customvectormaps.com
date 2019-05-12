@@ -17,6 +17,7 @@ const PARAMS = [
   "password",
   "place_name",
   "style_name",
+  "height",
   "lon",
   "lat",
   "radius",
@@ -31,7 +32,7 @@ function submitRender() {
   PARAMS.forEach(setParam);
   BASE64_PARAMS.forEach(setBase64Param);
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://ryz2vfwxcg.execute-api.us-west-2.amazonaws.com/Prod/render/", true);
+  xhr.open("POST", "https://ryz2vfwxcg.execute-api.us-west-2.amazonaws.com/Prod/render", true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.send(JSON.stringify(params));
 }
