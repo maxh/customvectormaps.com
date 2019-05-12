@@ -1,6 +1,5 @@
 # Site settings
 title: Custom Vector Maps
-url: http://customvectormaps.com
 
 # Build settings
 markdown: kramdown
