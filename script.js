@@ -1,3 +1,4 @@
+const URL = "https://f0odu07v53.execute-api.us-west-2.amazonaws.com/Prod/render/";
 const params = {};
 
 function getValue(name) {
@@ -32,7 +33,7 @@ function submitRender() {
   PARAMS.forEach(setParam);
   BASE64_PARAMS.forEach(setBase64Param);
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://ryz2vfwxcg.execute-api.us-west-2.amazonaws.com/Prod/render", true);
+  xhr.open("POST", URL, true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.send(JSON.stringify(params));
 }
