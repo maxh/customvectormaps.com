@@ -35,5 +35,15 @@ function submitRender() {
   const xhr = new XMLHttpRequest();
   xhr.open("POST", URL, true);
   xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.responseType = "json";
+  xhr.onload = () => {
+    const jsonResponse = xhr.response;
+    if (jsonResponse.error) {
+      alert(jsonResponse.error);
+      return;
+    }
+    const imgEl = document.getElementById("img");
+    imgEl.src = "data:image/png;base64, " + jsonResponse.result.image_base64;
+  };
   xhr.send(JSON.stringify(params));
 }
