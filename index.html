@@ -10,25 +10,135 @@
       <label for="password">password</label>
       <input id="password" type="text" name="password">
       <label for="place_name">place_name (eg twin_cities)</label>
-      <input id="place_name" type="text" name="place_name">
+      <input id="place_name" type="text" name="place_name" value="chicago">
       <label for="style_name">style_name (eg day_mode)</label>
-      <input id="style_name" type="text" name="style_name">
+      <input id="style_name" type="text" name="style_name" value="plain">
       <label for="height">height (eg 1000)</label>
-      <input id="height" type="text" name="height">
+      <input id="height" type="text" name="height" value="1000">
     </div>
     <div>
       <label for="lon">lon (eg -87.65)</label>
-      <input id="lon" type="text" name="lon">
+      <input id="lon" type="text" name="lon" value=-87.65>
       <label for="lat">lat (eg 41.88)</label>
-      <input id="lat" type="text" name="lat">
+      <input id="lat" type="text" name="lat" value=41.88>
       <label for="radius">radius (eg 15000)</label>
-      <input id="radius" type="text" name="radius">
+      <input id="radius" type="text" name="radius" value=15000>
     </div>
     <div>
       <label for="xml_source">xml_source</label>
-      <textarea id="xml_source" name="xml_source" rows="80" cols="80"></textarea>
+      <textarea id="xml_source" name="xml_source" rows="80" cols="80">
+<Map background-color="#FFFFFF">
+  <Style name="base">
+    <Rule>
+      <LineSymbolizer stroke-width="1" />
+    </Rule>
+    <Rule>
+      <Filter>[highway]='secondary' or [highway]='motorway_link' or [highway]='trunk_link'</Filter>
+      <LineSymbolizer stroke-width="3" />
+    </Rule>
+    <Rule>
+      <Filter>[highway]='trunk' or [highway]='corridor' or [highway]='primary' or [highway]='motorway'</Filter>
+      <LineSymbolizer stroke-width="5" />
+    </Rule>
+  </Style>
+  <Style name="mask">
+    <Rule>
+       <PolygonSymbolizer fill="white" />
+    </Rule>
+  </Style>
+</Map>
+      </textarea>
       <label for="sql_source">sql_source</label>
-      <textarea id="sql_source" name="sql_source" rows="80" cols="80"></textarea>
+      <textarea id="sql_source" name="sql_source" rows="80" cols="80">
+(
+  SELECT *
+  FROM planet_osm_polygon
+  WHERE "natural" = 'coastline'
+  OR "natural" = 'water'
+  OR "natural" = 'lake'
+  OR waterway = 'riverbank'
+  OR landuse = 'reservoir'
+  OR landuse = 'lake'
+  --OR water IS NOT NULL
+  OR name='Chicago'
+  OR leisure = 'marina'
+  OR name = 'Northerly Island'
+  OR name = 'Burnham Park'
+  OR (highway = 'footway' AND foot = 'yes')
+  --OR highway = 'pedestrian'
+  ORDER BY z_order
+)
+UNION ALL
+(
+  SELECT *
+  FROM planet_osm_line
+  WHERE ST_length(way) > 0
+    AND highway IN ('motorway', 'primary', 'trunk')
+    OR (ST_length(way) > 10 AND aeroway IN ('taxiway', 'runway', 'jetbridge'))
+  ORDER BY z_order
+)
+UNION ALL
+(
+  SELECT *
+  FROM planet_osm_line
+  WHERE ST_length(way) > 0
+    AND highway IN (
+      'corridor',
+      'motorway_link',
+      'road',
+      'secondary',
+      'tertiary',
+      'trunk_link'
+    )
+  ORDER BY z_order
+)
+UNION ALL
+(
+  SELECT *
+  FROM planet_osm_line
+  WHERE (
+    ST_length(way) > 10
+      AND highway IN (
+        --'bridleway',
+        --'bus_guideway',
+        --'construction',
+        --'corridor',
+        --'cycleway',
+        --'disused',
+        --'elevator',
+        --'escalator',
+        --'footway',
+        --'living_street',
+        --'motorway',
+        --'motorway_link',
+        --'path',
+        --'pedestrian',
+        --'platform',
+        --'primary',
+        --'primary_link',
+        --'proposed',
+        --'raceway',
+        'residential',
+        --'road',
+        --'secondary',
+        --'secondary_link',
+        --'steps',
+        --'tertiary',
+        --'tertiary_link',
+        --'track',
+        --'trunk',
+        --'trunk_link',
+        'unclassified',
+        --'walkway',
+        ' '
+      )
+  )
+  OR (highway = 'footway' AND foot = 'yes')
+  --OR (highway = 'service' AND (service != 'parking_aisle' OR service IS NULL))
+  ORDER BY z_order
+)
+
+      </textarea>
     <div>
     <img id="img" src="">
   </div>
